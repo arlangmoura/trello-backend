@@ -46,6 +46,11 @@ jobs:
       - name: Executar testes
         run: npx cypress run
 
+      - name: Conceder permissão de execução ao mochawesome-merge e marge
+        run: |
+          chmod +x ./node_modules/.bin/mochawesome-merge
+          chmod +x ./node_modules/.bin/marge
+
       - name: Gerar relatório
         run: npx mochawesome-merge cypress/reports/*.json > cypress/reports/report.json && npx marge cypress/reports/report.json
 
