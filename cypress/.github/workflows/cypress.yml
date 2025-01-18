@@ -20,20 +20,23 @@ jobs:
         run: npm cache clean --force
 
       - name: Instalar dependências
-        run: npm install --save-dev
-
-      - name: Conceder permissão de execução ao Cypress
-        run: chmod +x ./node_modules/.bin/cypress
+        run: npm install
 
       - name: Verificar dependências instaladas
         run: npm list cypress
+
+      - name: Conceder permissão ao binário Cypress
+        run: chmod +x ./node_modules/.bin/cypress
+
+      - name: Adicionar Cypress ao PATH
+        run: export PATH=$PATH:./node_modules/.bin
 
       - name: Gerar arquivo data.json a partir do secret
         run: |
           echo '${{ secrets.DATA_JSON }}' > cypress/fixtures/data.json
 
       - name: Executar testes
-        run: npx cypress run
+        run: ./node_modules/.bin/cypress run
 
       - name: Gerar relatório
         run: npx mochawesome-merge cypress/reports/*.json > cypress/reports/report.json && npx marge cypress/reports/report.json
