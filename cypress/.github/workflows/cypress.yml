@@ -33,13 +33,14 @@ jobs:
           echo '${{ secrets.DATA_JSON }}' > cypress/fixtures/data.json
 
       - name: Executar testes
-        run: npm test
+        run: npx cypress run
 
       - name: Gerar relatório
-        run: npm run report
+        run: npx mochawesome-merge cypress/reports/*.json > cypress/reports/report.json && npx marge cypress/reports/report.json
 
       - name: Upload do relatório
         uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
         with:
           name: cypress-report
           path: cypress/reports/
