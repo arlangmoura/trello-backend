@@ -16,11 +16,22 @@ jobs:
         with:
           node-version: '18.20.4'
 
+      - name: Configurar cache do Cypress
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            cypress-cache-${{ runner.os }}-
+
       - name: Limpar cache do npm
         run: npm cache clean --force
 
       - name: Instalar dependências
         run: npm install
+
+      - name: Instalar binário do Cypress
+        run: npx cypress install
 
       - name: Verificar dependências instaladas
         run: npm list cypress
