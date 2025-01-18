@@ -1,0 +1,8 @@
+{
+    "type": "object",
+    "required": ["_value"],
+    "properties": {
+      "_value": { "type": ["null"] }
+    }
+  }
+  

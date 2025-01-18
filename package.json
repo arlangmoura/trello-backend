@@ -1,0 +1,18 @@
+{
+  "name": "trello-cypress-tests",
+  "version": "1.0.0",
+  "description": "Projeto Cypress para automação de testes da API do Trello",
+  "scripts": {
+    "open": "cypress open",
+    "test": "cypress run",
+    "report": "mochawesome-merge cypress/reports/*.json > cypress/reports/report.json && marge cypress/reports/report.json"
+  },
+  "devDependencies": {
+    "cypress": "^12.0.0",
+    "cypress-plugin-api": "^2.11.2",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.2.0",
+    "mochawesome-report-generator": "^6.0.1",
+    "ajv": "^8.12.0"
+  }
+}

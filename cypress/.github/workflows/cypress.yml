@@ -1,0 +1,45 @@
+name: 'Cypress Tests'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  cypress-api:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.20.4'
+
+      - name: Limpar cache do npm
+        run: npm cache clean --force
+
+      - name: Instalar dependências
+        run: npm install --save-dev
+
+      - name: Conceder permissão de execução ao Cypress
+        run: chmod +x ./node_modules/.bin/cypress
+
+      - name: Verificar dependências instaladas
+        run: npm list cypress
+
+      - name: Gerar arquivo data.json a partir do secret
+        run: |
+          echo '${{ secrets.DATA_JSON }}' > cypress/fixtures/data.json
+
+      - name: Executar testes
+        run: npm test
+
+      - name: Gerar relatório
+        run: npm run report
+
+      - name: Upload do relatório
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-report
+          path: cypress/reports/
